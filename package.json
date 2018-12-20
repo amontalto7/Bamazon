@@ -1,0 +1,24 @@
+{
+  "name": "Bamazon",
+  "version": "1.0.0",
+  "description": "CLI Bamazon storefront node app using mysql",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amontalto7/Bamazon.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amontalto7/Bamazon/issues"
+  },
+  "homepage": "https://github.com/amontalto7/Bamazon#readme",
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "mysql": "^2.16.0"
+  }
+}
