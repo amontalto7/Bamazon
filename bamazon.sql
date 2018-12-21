@@ -32,7 +32,7 @@ FROM products;
 
 SELECT stock_quantity
 FROM products
-WHERE item_id = 10;
+WHERE item_id = 100;
 
 UPDATE products
 SET stock_quantity = 10

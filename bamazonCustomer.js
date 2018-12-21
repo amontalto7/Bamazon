@@ -24,7 +24,8 @@ connection.connect(function(err) {
 });
 
 let displayProducts = function() {
-    let query = "SELECT item_id, product_name, department_name, price, stock_quantity from products;"
+    // get all products with a quantity greater than 0
+    let query = "SELECT item_id, product_name, department_name, price, stock_quantity FROM products WHERE stock_quantity > 0;"
     connection.query(query, function(err, res) {
         if (err) throw err;
         log(chalk.underline.bold.black.bgYellowBright('PRODUCTS'));
@@ -32,70 +33,89 @@ let displayProducts = function() {
             console.log(res[i].item_id + ".  " + res[i].product_name + " || " + res[i].department_name + " || " + chalk.green("$"+res[i].price.toFixed(2)));
         }
         console.log("\n");
-        chooseProduct();
+        chooseProduct(res);
 
       });
 }
 
-let chooseProduct = function(){
+let chooseProduct = function(res){
         inquirer
           .prompt([
             {
-              name: "item_id",
+              name: "choice",
               type: "input",
-              message: "Please enter the ID of the product you would like to purchase: ",
-              validate: function(value) {
-                if (isNaN(value) === false) {
-                  return true;
-                }
-                return false;
-              }
-            },
-            {
-              name: "quantity",
-              type: "input",
-              message: "How many? ",
-              validate: function(value) {
-                if (isNaN(value) === false) {
-                  return true;
-                }
-                return false;
-              }
+              message: "Please enter the ID of the product you would like to purchase, or 'Q' to quit: ",
             }
           ])
           .then(function(answer) {
-            connection.query(
-                "SELECT stock_quantity FROM products WHERE ?",
-                  {
-                    item_id: answer.item_id
-                  }
-                ,
-                function(error,res) {
-                  if (error) throw err;
 
-                  if (!res[0]) {
-                      console.log("Product not found!")
-                      chooseProduct();
-                     } else {
-                        //  console.log((answer.quantity <= res[0].stock_quantity) ? "enough" : "not enough")
-                        if (answer.quantity <= res[0].stock_quantity) {
-                            buyStuff();
-                        } else {
-                            log(chalk.red("Insufficient Inventory! Max quantity: "+res[0].stock_quantity));
-                            chooseProduct();
-                        }
-                    }
-                  //   start();
+            if (answer.choice.toUpperCase() === "Q")
+                {
+                    connection.end();
+                    process.exit();
                 }
-              );
 
-            console.log("Item: " + answer.item_id);
-            console.log("Quantity: " + answer.quantity);
+            let found = false;
+            let resIndex = "";
+            for (var i = 0; i < res.length; i++){
+                if (res[i].item_id === parseInt(answer.choice)){
+                    found = true;
+                    resIndex = i;   // store index of query result for later use 
+                }
+            }
+
+            if (found) {
+
+                inquirer
+                .prompt({
+                    name: "quantity",
+                    type: "input",
+                    message: "How many? ",
+                    validate: function(value) {
+                      if (isNaN(value) === false) {
+                        return true;
+                    }
+                    return false;
+                    }
+                })
+                .then(function(answer) {
+
+                   if (answer.quantity <= res[resIndex].stock_quantity) {
+                    buyStuff(res[resIndex], parseInt(answer.quantity));
+                    } else {
+                    log(chalk.red("Insufficient Inventory! Max quantity: "+res[resIndex].stock_quantity));
+                    chooseProduct(res);
+                }
+                });
+
+               } else {
+                log(chalk.red("Product not found!"));
+                chooseProduct(res);
+               }
         });
       
 }
 
-var buyStuff = function(item_id) {
-    connection.end();
+var buyStuff = function(item, purchaseQuantity) {
+    let updatedQuantity = item.stock_quantity - purchaseQuantity;
+ 
+     connection.query(
+        "UPDATE products SET ? WHERE ?",
+        [
+          {
+            stock_quantity: updatedQuantity
+          },
+          {
+            item_id: item.item_id
+          }
+        ],
+        function(error) {
+          if (error) throw error;
+          console.log("\nOrder placed successfully!");
+          let totalCost = item.price * purchaseQuantity;
+          log(chalk.yellow(purchaseQuantity) + chalk.blue(" order(s) of '" + item.product_name +"' purchased for a total of ") + chalk.green.bold("$"+totalCost.toFixed(2)+"\n"))
 
+          displayProducts();
+        }
+      );
 }
