@@ -207,4 +207,70 @@ let addToInventory = function() {
     });
 };
 
-let addNewProduct = function() {};
+let addNewProduct = function() {
+    inquirer
+    .prompt([
+      {
+        name: "name",
+        type: "input",
+        message: "Product name: "
+      },
+      {
+        name: "department",
+        type: "input",
+        message: "Department: "
+      },
+      {
+        name: "price",
+        type: "input",
+        message: "Price: ",
+        validate: function(value) {
+          if (isNaN(value) === false) {
+            return true;
+          }
+          return false;
+        }
+      },
+      {
+        name: "quantity",
+        type: "input",
+        message: "Quantity: ",
+        validate: function(value) {
+          if (isNaN(value) === false) {
+            return true;
+          }
+          return false;
+        }
+      },
+          // Here we ask the user to confirm.
+      {
+        type: "confirm",
+        message: "Are you sure:",
+        name: "confirm",
+        default: true
+      }
+    ])
+    .then(function(answer) {
+      // when finished prompting, insert a new item into the db with that info
+        if (answer.confirm) {
+            connection.query(
+            "INSERT INTO products SET ?",
+            {
+                product_name: answer.name,
+                department_name: answer.department,
+                price: answer.price,
+                stock_quantity: answer.quantity
+            },
+                function(err) {
+                if (err) throw err;
+                console.log(chalk.yellow("\nYour item was added successfully!\n"));
+                displayOptions();    
+            }       
+            );
+        } else {
+            console.log("\nTransaction cancelled.\n");
+            displayOptions();
+        }
+
+    });
+};
