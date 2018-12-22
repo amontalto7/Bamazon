@@ -146,19 +146,21 @@ let addToInventory = function() {
           return displayOptions();
         }
 
-        // connection.query("SELECT item_id, product_name, stock_quantity FROM products WHERE item_id = ?", parseInt(answer.choice), (function(err, results) {
-        //     if (err) throw err;
-        //         console.log(results[0]);  
-        //     });
-        var query = "SELECT item_id, product_name, stock_quantity FROM products WHERE ?";
-        connection.query(query, { item_id: parseInt(answer.choice) }, function(err, res) {
-          for (var i = 0; i < res.length; i++) {
-            console.log(res[i]);
-          }
+        if (isNaN(answer.choice) === false) { 
+            var query = "SELECT item_id, product_name, stock_quantity FROM products WHERE ?";
+            connection.query(query, { item_id: parseInt(answer.choice) }, function(err, res) {
+                if (res[0]) {   // still gives an error if it's another character
+                console.log(res[0]);  
+                } else {
+                    console.log("Not found");
+                    displayOptions();
+                }
         //   runSearch();
-        });
-
-
+            });
+        } else {
+            console.log("Not found");
+            displayOptions();
+        }
 
       });
 
