@@ -152,13 +152,13 @@ let addToInventory = function() {
                 if (res[0]) {   // still gives an error if it's another character
                 console.log(res[0]);  
                 } else {
-                    console.log("Not found");
+                    log(chalk.red("Item not found."));
                     displayOptions();
                 }
         //   runSearch();
             });
         } else {
-            console.log("Not found");
+            log(chalk.red("Invalid format! Please enter a valid Product ID."));
             displayOptions();
         }
 
