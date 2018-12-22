@@ -133,6 +133,37 @@ let viewLowInventory = function() {
       });
 };
 
-let addToInventory = function() {};
+let addToInventory = function() {
+    inquirer.prompt([
+        {
+          name: "choice",
+          type: "input",
+          message: "Please enter the ID of the product you'd like to modify, or 'B' to go back: ",
+        }
+      ])
+      .then(function(answer) {
+        if (answer.choice.toUpperCase() === "B") {
+          return displayOptions();
+        }
+
+        // connection.query("SELECT item_id, product_name, stock_quantity FROM products WHERE item_id = ?", parseInt(answer.choice), (function(err, results) {
+        //     if (err) throw err;
+        //         console.log(results[0]);  
+        //     });
+        var query = "SELECT item_id, product_name, stock_quantity FROM products WHERE ?";
+        connection.query(query, { item_id: parseInt(answer.choice) }, function(err, res) {
+          for (var i = 0; i < res.length; i++) {
+            console.log(res[i]);
+          }
+        //   runSearch();
+        });
+
+
+
+      });
+
+
+
+};
 
 let addNewProduct = function() {};
