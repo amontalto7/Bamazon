@@ -25,7 +25,7 @@ connection.connect(function(err) {
 
 let displayProducts = function() {
     // get all products with a quantity greater than 0
-    let query = "SELECT item_id, product_name, department_name, price, stock_quantity FROM products WHERE stock_quantity > 0;"
+    let query = "SELECT item_id, product_name, department_name, price, stock_quantity, product_sales FROM products WHERE stock_quantity > 0;"
     connection.query(query, function(err, res) {
         if (err) throw err;
         log(chalk.underline.bold.black.bgYellowBright('\nPRODUCTS\n'));
@@ -98,12 +98,17 @@ let chooseProduct = function(res){
 
 var buyStuff = function(item, purchaseQuantity) {
     let updatedQuantity = item.stock_quantity - purchaseQuantity;
- 
+    let totalCost = item.price * purchaseQuantity;
+    let updatedSales = item.product_sales + totalCost;
+
      connection.query(
-        "UPDATE products SET ? WHERE ?",
+        "UPDATE products SET ?, ? WHERE ?",
         [
           {
             stock_quantity: updatedQuantity
+          },
+          {
+            product_sales: updatedSales
           },
           {
             item_id: item.item_id
@@ -112,7 +117,6 @@ var buyStuff = function(item, purchaseQuantity) {
         function(error) {
           if (error) throw error;
           console.log("\nOrder placed successfully!");
-          let totalCost = item.price * purchaseQuantity;
           log(chalk.yellow(purchaseQuantity) + chalk.cyan(" order(s) of '" + item.product_name +"' purchased for a total of ") + chalk.green.bold("$"+totalCost.toFixed(2)+"\n"))
 
           displayProducts();

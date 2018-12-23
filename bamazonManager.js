@@ -2,7 +2,7 @@ const mysql = require("mysql");
 const inquirer = require("inquirer");
 const chalk = require("chalk");
 const log = console.log;
-var Table = require("cli-table");
+const Table = require("cli-table");
 
 const connection = mysql.createConnection({
   host: "localhost",
