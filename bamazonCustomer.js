@@ -28,9 +28,9 @@ let displayProducts = function() {
     let query = "SELECT item_id, product_name, department_name, price, stock_quantity FROM products WHERE stock_quantity > 0;"
     connection.query(query, function(err, res) {
         if (err) throw err;
-        log(chalk.underline.bold.black.bgYellowBright('PRODUCTS'));
+        log(chalk.underline.bold.black.bgYellowBright('\nPRODUCTS\n'));
         for (var i = 0; i < res.length; i++) {
-            console.log(res[i].item_id + ".  " + res[i].product_name + " || " + res[i].department_name + " || " + chalk.green("$"+res[i].price.toFixed(2)));
+            console.log(res[i].item_id + ".  " + res[i].product_name + "  ||  " + res[i].department_name + "  ||  " + chalk.green("$"+res[i].price.toFixed(2)));
         }
         console.log("\n");
         chooseProduct(res);
@@ -113,7 +113,7 @@ var buyStuff = function(item, purchaseQuantity) {
           if (error) throw error;
           console.log("\nOrder placed successfully!");
           let totalCost = item.price * purchaseQuantity;
-          log(chalk.yellow(purchaseQuantity) + chalk.blue(" order(s) of '" + item.product_name +"' purchased for a total of ") + chalk.green.bold("$"+totalCost.toFixed(2)+"\n"))
+          log(chalk.yellow(purchaseQuantity) + chalk.cyan(" order(s) of '" + item.product_name +"' purchased for a total of ") + chalk.green.bold("$"+totalCost.toFixed(2)+"\n"))
 
           displayProducts();
         }
