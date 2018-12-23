@@ -59,7 +59,7 @@ function displayOptions() {
           process.exit();
           break;
         default:
-          log(chalk.red("Oops, broken switch statement"));
+          log(chalk.red("Oops, broken switch statement"));  // this should never be triggered
       }
     });
 }
