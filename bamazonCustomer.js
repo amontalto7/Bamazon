@@ -79,18 +79,24 @@ let chooseProduct = function(res){
                     }
                 })
                 .then(function(answer) {
+                  // return to menu if user enters 0 or a negative number
+                  if (answer.quantity < 1){
+                    log(chalk.cyan("Transaction cancelled."));                    
+                   return chooseProduct(res);
+                  }
 
+                    // if there is enough quantity, buy the product(s). Otherwise, display error and return to menu
                    if (answer.quantity <= res[resIndex].stock_quantity) {
                     buyStuff(res[resIndex], parseInt(answer.quantity));
                     } else {
                     log(chalk.red("Insufficient Inventory! Max quantity: "+res[resIndex].stock_quantity));
-                    chooseProduct(res);
+                    return chooseProduct(res);
                 }
                 });
 
                } else {
                 log(chalk.red("Product not found!"));
-                chooseProduct(res);
+               return chooseProduct(res);
                }
         });
       
