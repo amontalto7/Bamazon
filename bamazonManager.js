@@ -94,7 +94,6 @@ let viewProducts = function() {
     }
     console.log(table.toString());
     console.log("\n");
-    // connection.end();
     displayOptions();
   });
 };
