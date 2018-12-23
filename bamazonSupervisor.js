@@ -99,5 +99,52 @@ console.log(query);
 }
 
 function createNewDepartment() {
-  connection.end();
+    inquirer
+    .prompt([
+      {
+        name: "department",
+        type: "input",
+        message: "Department name: "
+      },
+      {
+        name: "overhead",
+        type: "input",
+        message: "Overhead costs: ",
+        validate: function(value) {
+          if (isNaN(value) === false) {
+            return true;
+          }
+          return false;
+        }
+        // return (isNaN(value) === false) ? true : false; 
+      },
+          // Here we ask the user to confirm.
+      {
+        type: "confirm",
+        message: "Are you sure:",
+        name: "confirm",
+        default: true
+      }
+    ])
+    .then(function(answer) {
+      // when finished prompting, insert a new item into the db with that info
+        if (answer.confirm) {
+            connection.query(
+            "INSERT INTO departments SET ?",
+            {
+                department_name: answer.department,
+                over_head_costs: answer.overhead
+            },
+                function(err) {
+                if (err) throw err;
+                console.log(chalk.yellow("\nDepartment added successfully!\n"));
+                displayOptions();    
+            }       
+            );
+        } else {
+            console.log("\nTransaction cancelled.\n");
+            displayOptions();
+        }
+
+    });
 }
