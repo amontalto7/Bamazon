@@ -78,8 +78,6 @@ function viewProductSalesByDept() {
     + " GROUP BY department_name"
     + " ORDER BY department_name";
     
-console.log(query);
-
   connection.query(query, function(err, res) {
     if (err) throw err;
     log(chalk.underline.bold.black.bgYellowBright("\nPRODUCT SALES\n"));
@@ -111,12 +109,8 @@ function createNewDepartment() {
         type: "input",
         message: "Overhead costs: ",
         validate: function(value) {
-          if (isNaN(value) === false) {
-            return true;
-          }
-          return false;
+           return (isNaN(value) === false) ? true : false; 
         }
-        // return (isNaN(value) === false) ? true : false; 
       },
           // Here we ask the user to confirm.
       {

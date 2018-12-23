@@ -44,3 +44,19 @@ This will prompt the user with a list of available options:
 **Add New Product** will allow a user to add a new product:
 
 ![Add Product](/images/bamazonManager_addProduct.gif)
+
+---
+
+### 2) Supervisor View
+
+This will prompt the user with a list of available options:
+- View Product Sales by Department
+- Create New Department
+- Quit
+
+Selecting **View Product Sales by Department** will display query results in a CLI table. 
+The query does a join on Products and Departments tables and calculates the difference between over_head_costs and total product_sales on the fly
+
+**Create New Department** will simply add a new department to the Departments table
+
+![bamazon Supervisor](/images/bamazonSupervisor.gif)
