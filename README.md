@@ -21,6 +21,7 @@ This will list all available products in the database, and allow the user to cho
 If an item is sold out, it will no longer display:
 ![Bamazon no inventory](\images\bamazonCustomer1.gif)
 
+---
 
 ### 2) Manager View
 
