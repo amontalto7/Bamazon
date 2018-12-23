@@ -16,10 +16,10 @@ usage:
 
 This will list all available products in the database, and allow the user to choose a product ID and an amount they'd like to purchase. Error handling is built in to accept valid input. If you attempt to purchase more of a product than is available in inventory, an error will be displayed with the available inventory.
 
-![Bamazon Customer flow](\images\bamazonCustomer.gif)
+![Bamazon Customer flow](images\bamazonCustomer.gif)
 
 If an item is sold out, it will no longer display:
-![Bamazon no inventory](\images\bamazonCustomer1.gif)
+![Bamazon no inventory](images\bamazonCustomer1.gif)
 
 ---
 
@@ -33,12 +33,12 @@ This will prompt the user with a list of available options:
 - Quit
 
 *View Products for Sale* and *View Low Inventory* will display results in a cli-table:
-![View Products](\images\bamazonManager_viewInventory.gif)
+![View Products](images\bamazonManager_viewInventory.gif)
 
 *Add to Inventory* will allow a user to adjust the inventory for a chosen product:
 
-![Add Inventory](\images\bamazonManager_addInventory.gif)
+![Add Inventory](images\bamazonManager_addInventory.gif)
 
 *Add New Product* will allow a user to add a new product:
 
-![Add Product](\images\bamazonManager_addProduct.gif)
+![Add Product](images\bamazonManager_addProduct.gif)
