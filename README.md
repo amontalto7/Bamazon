@@ -1,5 +1,6 @@
 # Bamazon
 CLI "Bamazon" storefront node app.
+
 NPM packages used:
 - [MySql](https://www.npmjs.com/package/mysql)  - used for database connection / manipulation
 - [Inquirer](https://www.npmjs.com/package/inquirer)  - used to prompt user
@@ -33,13 +34,13 @@ This will prompt the user with a list of available options:
 - Add New Product
 - Quit
 
-*View Products for Sale* and *View Low Inventory* will display results in a cli-table:
+**View Products for Sale** and **View Low Inventory** will display results in a cli-table:
 ![View Products](/images/bamazonManager_viewInventory.gif)
 
-*Add to Inventory* will allow a user to adjust the inventory for a chosen product:
+**Add to Inventory** will allow a user to adjust the inventory for a chosen product:
 
 ![Add Inventory](/images/bamazonManager_addInventory.gif)
 
-*Add New Product* will allow a user to add a new product:
+**Add New Product** will allow a user to add a new product:
 
 ![Add Product](/images/bamazonManager_addProduct.gif)
